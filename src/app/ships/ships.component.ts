@@ -1,11 +1,10 @@
 import { Component } from "@angular/core";
-import { ShipDragContainerComponent } from "../ship-drag-container/ship-drag-container.component";
-import { AddDragDirective } from "../add-drag.directive";
+import { AddDragDirective } from "../directives/add-drag.directive";
 
 @Component({
   selector: "ships",
   standalone: true,
-  imports: [ShipDragContainerComponent, AddDragDirective],
+  imports: [AddDragDirective],
   templateUrl: "./ships.component.html",
 })
 export class ShipsComponent {
