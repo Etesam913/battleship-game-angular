@@ -1,12 +1,15 @@
 import { Component, signal } from "@angular/core";
 import { BoardCellComponent } from "../board-cell/board-cell.component";
-import { DraggingService } from "../services/dragging/dragging.service";
+import {
+  DraggingService,
+  ShipTypes,
+} from "../services/dragging/dragging.service";
 
 export type BoardStructure = CellStructure[][];
 
 export type CellStructure = {
   id: number;
-  value: string;
+  value: ShipTypes | null;
   isHighlighted: boolean;
   i: number;
   j: number;
@@ -23,7 +26,7 @@ export class BoardComponent {
     Array.from({ length: 10 }, (_, rowIndex) =>
       Array.from({ length: 10 }, (_, colIndex) => ({
         id: rowIndex * 10 + colIndex + 1,
-        value: "",
+        value: null,
         isHighlighted: false,
         i: rowIndex,
         j: colIndex,
@@ -38,7 +41,9 @@ export class BoardComponent {
 
     this.boardItems.update((prevBoard) => {
       const elementsToRight = prevBoard.length - 1 - cell.j;
-      const shipWidth = 3;
+      const shipType = this.draggingService.shipType();
+      if (!shipType) return prevBoard;
+      const shipWidth = this.draggingService.getShipWidthFromType(shipType);
       if (elementsToRight <= 3) {
         return prevBoard;
       }

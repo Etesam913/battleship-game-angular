@@ -1,6 +1,5 @@
-import { Component, input, Input, model, WritableSignal } from "@angular/core";
-import { BoardStructure, CellStructure } from "../board/board.component";
-import { DraggingService } from "../services/dragging/dragging.service";
+import { Component, Input } from "@angular/core";
+import { CellStructure } from "../board/board.component";
 
 @Component({
   selector: "board-cell",

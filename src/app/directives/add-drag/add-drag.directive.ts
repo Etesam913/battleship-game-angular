@@ -1,25 +1,30 @@
 import {
+  AfterViewInit,
   Directive,
   effect,
   ElementRef,
+  Input,
   OnDestroy,
   OnInit,
   Renderer2,
   signal,
 } from "@angular/core";
-import { DraggingService } from "../../services/dragging/dragging.service";
+import {
+  DraggingService,
+  ShipTypes,
+} from "../../services/dragging/dragging.service";
 
 @Directive({
   selector: "[addDrag]",
   standalone: true,
 })
-export class AddDragDirective implements OnInit, OnDestroy {
+export class AddDragDirective implements OnInit, OnDestroy, AfterViewInit {
+  @Input({ required: true }) shipType!: ShipTypes;
   private mouseX = signal<number | null>(null);
   private mouseY = signal<number | null>(null);
   private directiveElement!: HTMLElement;
   private directiveElementRect!: DOMRect;
   private handle!: HTMLElement;
-
   private mouseDownListener: (() => void) | null = null;
   private mouseMoveListener: (() => void) | null = null;
   private mouseUpListener: (() => void) | null = null;
@@ -29,8 +34,6 @@ export class AddDragDirective implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private draggingService: DraggingService,
   ) {
-    this.directiveElement = this.el.nativeElement;
-    this.draggingService.draggedElement = this.directiveElement;
     effect(() => {
       const isMouseXSet = this.mouseX() !== null;
       const isMouseYSet = this.mouseY() !== null;
@@ -49,12 +52,20 @@ export class AddDragDirective implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit(): void {
+    // The if statement fixes a weird type error where getBoundingClientRect did not exist
+    if (this.directiveElement.getBoundingClientRect) {
+      this.directiveElementRect = this.directiveElement.getBoundingClientRect();
+    }
+  }
+
   ngOnInit(): void {
+    this.directiveElement = this.el.nativeElement;
+    this.draggingService.draggedElement = this.directiveElement;
     const potentialHandle = this.directiveElement.querySelector(
       ".handle",
     ) as HTMLElement;
     this.handle = potentialHandle ?? this.directiveElement;
-    this.directiveElementRect = this.directiveElement.getBoundingClientRect();
 
     this.mouseDownListener = this.renderer.listen(
       this.handle,
@@ -65,6 +76,7 @@ export class AddDragDirective implements OnInit, OnDestroy {
 
   private onMouseDown() {
     this.draggingService.isDragging.set(true);
+    this.draggingService.shipType.set(this.shipType);
     this.mouseMoveListener = this.renderer.listen(
       "window",
       "mousemove",

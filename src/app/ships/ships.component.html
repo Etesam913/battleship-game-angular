@@ -3,6 +3,7 @@
     @for (ship of currentShips; track "ship" + $index) {
         <div
             addDrag
+            [shipType]="ship"
             [class.w-[10rem]]="ship == 'aircraft carrier'"
             [class.w-[8rem]]="ship == 'battleship'"
             [class.w-[6rem]]="ship == 'cruiser'"
