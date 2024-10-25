@@ -8,6 +8,7 @@
             [class.w-[6rem]]="ship == 'cruiser'"
             [class.w-[4rem]]="ship == 'destroyer'"
             [class.w-[2rem]]="ship == 'sub'"
+            [class.pointer-events-none]="draggingService.isDragging()"
         >
             <p class="handle cursor-move select-none">handle</p>
             <div class="h-7 outline outline-1">

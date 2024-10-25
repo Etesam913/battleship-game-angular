@@ -7,13 +7,13 @@ import {
   Renderer2,
   signal,
 } from "@angular/core";
+import { DraggingService } from "../../services/dragging/dragging.service";
 
 @Directive({
   selector: "[addDrag]",
   standalone: true,
 })
 export class AddDragDirective implements OnInit, OnDestroy {
-  private isDragging = signal(false);
   private mouseX = signal<number | null>(null);
   private mouseY = signal<number | null>(null);
   private directiveElement!: HTMLElement;
@@ -27,15 +27,16 @@ export class AddDragDirective implements OnInit, OnDestroy {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
+    private draggingService: DraggingService,
   ) {
     this.directiveElement = this.el.nativeElement;
-
+    this.draggingService.draggedElement = this.directiveElement;
     effect(() => {
       const isMouseXSet = this.mouseX() !== null;
       const isMouseYSet = this.mouseY() !== null;
       const mouseX = this.mouseX();
       const mouseY = this.mouseY();
-      if (this.isDragging()) {
+      if (this.draggingService.isDragging()) {
         const { left, top } = this.directiveElementRect;
         if (mouseX && mouseY) {
           this.renderer.setStyle(
@@ -63,7 +64,7 @@ export class AddDragDirective implements OnInit, OnDestroy {
   }
 
   private onMouseDown() {
-    this.isDragging.set(true);
+    this.draggingService.isDragging.set(true);
     this.mouseMoveListener = this.renderer.listen(
       "window",
       "mousemove",
@@ -78,14 +79,14 @@ export class AddDragDirective implements OnInit, OnDestroy {
   }
 
   private onMouseMove(event: MouseEvent) {
-    if (this.isDragging()) {
+    if (this.draggingService.isDragging()) {
       this.mouseX.set(event.clientX);
       this.mouseY.set(event.clientY);
     }
   }
 
   private onMouseUp() {
-    this.isDragging.set(false);
+    this.draggingService.isDragging.set(false);
 
     if (this.mouseMoveListener) {
       this.mouseMoveListener();

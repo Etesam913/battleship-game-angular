@@ -1,5 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { AddDragDirective } from "../directives/add-drag/add-drag.directive";
+import { DraggingService } from "../services/dragging/dragging.service";
 
 @Component({
   selector: "ships",
@@ -22,4 +23,5 @@ export class ShipsComponent {
     "sub",
     "sub",
   ];
+  draggingService = inject(DraggingService);
 }
