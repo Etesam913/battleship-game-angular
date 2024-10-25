@@ -75,9 +75,6 @@ export class AddDragDirective implements OnInit, OnDestroy {
       "mouseup",
       this.onMouseUp.bind(this),
     );
-
-    // this.listeners.push(mouseMoveListener);
-    // this.listeners.push(mouseUpListener);
   }
 
   private onMouseMove(event: MouseEvent) {

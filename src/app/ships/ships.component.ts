@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AddDragDirective } from "../directives/add-drag.directive";
+import { AddDragDirective } from "../directives/add-drag/add-drag.directive";
 
 @Component({
   selector: "ships",
