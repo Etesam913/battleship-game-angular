@@ -1,11 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-
-export type ShipTypes =
-  | "aircraft carrier"
-  | "battleship"
-  | "cruiser"
-  | "destroyer"
-  | "sub";
+import { Ship, ShipTypes } from "../../app.component";
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +7,7 @@ export type ShipTypes =
 export class DraggingService {
   isDragging = signal(false);
   draggedElement!: HTMLElement;
-  shipType = signal<ShipTypes | null>(null);
+  shipObject = signal<Ship | null>(null);
 
   getShipWidthFromType(shipType: ShipTypes): number {
     switch (shipType) {

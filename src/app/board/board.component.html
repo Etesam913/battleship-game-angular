@@ -5,6 +5,7 @@
                 <board-cell
                     (mouseenter)="onCellMouseEnter(cell)"
                     (mouseleave)="onCellMouseLeave()"
+                    (mouseup)="onCellMouseUp(cell)"
                     [cell]="cell"
                 >
                     {{ cell.value }}

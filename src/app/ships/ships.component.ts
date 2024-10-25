@@ -1,6 +1,7 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, Input } from "@angular/core";
 import { AddDragDirective } from "../directives/add-drag/add-drag.directive";
 import { DraggingService } from "../services/dragging/dragging.service";
+import { Ship } from "../app.component";
 
 @Component({
   selector: "ships",
@@ -9,19 +10,6 @@ import { DraggingService } from "../services/dragging/dragging.service";
   templateUrl: "./ships.component.html",
 })
 export class ShipsComponent {
-  currentShips: (
-    | "aircraft carrier"
-    | "battleship"
-    | "cruiser"
-    | "destroyer"
-    | "sub"
-  )[] = [
-    "aircraft carrier",
-    "battleship",
-    "cruiser",
-    "destroyer",
-    "sub",
-    "sub",
-  ];
+  @Input({ required: true }) currentShips!: Ship[];
   draggingService = inject(DraggingService);
 }

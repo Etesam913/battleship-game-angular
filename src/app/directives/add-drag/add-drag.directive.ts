@@ -9,17 +9,15 @@ import {
   Renderer2,
   signal,
 } from "@angular/core";
-import {
-  DraggingService,
-  ShipTypes,
-} from "../../services/dragging/dragging.service";
+import { DraggingService } from "../../services/dragging/dragging.service";
+import { Ship, ShipTypes } from "../../app.component";
 
 @Directive({
   selector: "[addDrag]",
   standalone: true,
 })
 export class AddDragDirective implements OnInit, OnDestroy, AfterViewInit {
-  @Input({ required: true }) shipType!: ShipTypes;
+  @Input({ required: true }) shipObject!: Ship;
   private mouseX = signal<number | null>(null);
   private mouseY = signal<number | null>(null);
   private directiveElement!: HTMLElement;
@@ -76,7 +74,7 @@ export class AddDragDirective implements OnInit, OnDestroy, AfterViewInit {
 
   private onMouseDown() {
     this.draggingService.isDragging.set(true);
-    this.draggingService.shipType.set(this.shipType);
+    this.draggingService.shipObject.set(this.shipObject);
     this.mouseMoveListener = this.renderer.listen(
       "window",
       "mousemove",

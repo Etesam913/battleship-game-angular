@@ -1,9 +1,7 @@
-import { Component, signal } from "@angular/core";
+import { Component, model, signal } from "@angular/core";
 import { BoardCellComponent } from "../board-cell/board-cell.component";
-import {
-  DraggingService,
-  ShipTypes,
-} from "../services/dragging/dragging.service";
+import { DraggingService } from "../services/dragging/dragging.service";
+import { Ship, ShipTypes } from "../app.component";
 
 export type BoardStructure = CellStructure[][];
 
@@ -22,6 +20,8 @@ export type CellStructure = {
   templateUrl: "./board.component.html",
 })
 export class BoardComponent {
+  currentShips = model.required<Ship[]>();
+
   boardItems = signal<BoardStructure>(
     Array.from({ length: 10 }, (_, rowIndex) =>
       Array.from({ length: 10 }, (_, colIndex) => ({
@@ -41,9 +41,11 @@ export class BoardComponent {
 
     this.boardItems.update((prevBoard) => {
       const elementsToRight = prevBoard.length - 1 - cell.j;
-      const shipType = this.draggingService.shipType();
-      if (!shipType) return prevBoard;
-      const shipWidth = this.draggingService.getShipWidthFromType(shipType);
+      const shipObject = this.draggingService.shipObject();
+      if (!shipObject) return prevBoard;
+      const shipWidth = this.draggingService.getShipWidthFromType(
+        shipObject.type,
+      );
       if (elementsToRight <= 3) {
         return prevBoard;
       }
@@ -69,5 +71,16 @@ export class BoardComponent {
 
       return copyOfBoard;
     });
+  }
+
+  onCellMouseUp(cell: CellStructure) {
+    const { isDragging, shipObject } = this.draggingService;
+    const shipId = shipObject()?.id;
+    if (!shipId) return;
+    this.currentShips.update((prevShips) => {
+      return prevShips.filter((curShip) => curShip.id !== shipId);
+    });
+
+    console.log(this.currentShips(), shipObject());
   }
 }

@@ -1,19 +1,19 @@
 <section class="flex flex-col gap-2">
     <h2 class="font-bold text-2xl">Your Ships</h2>
-    @for (ship of currentShips; track "ship" + $index) {
+    @for (shipObj of currentShips; track shipObj.id) {
         <div
             addDrag
-            [shipType]="ship"
-            [class.w-[10rem]]="ship == 'aircraft carrier'"
-            [class.w-[8rem]]="ship == 'battleship'"
-            [class.w-[6rem]]="ship == 'cruiser'"
-            [class.w-[4rem]]="ship == 'destroyer'"
-            [class.w-[2rem]]="ship == 'sub'"
+            [shipObject]="shipObj"
+            [class.w-[10rem]]="shipObj.type == 'aircraft carrier'"
+            [class.w-[8rem]]="shipObj.type == 'battleship'"
+            [class.w-[6rem]]="shipObj.type == 'cruiser'"
+            [class.w-[4rem]]="shipObj.type == 'destroyer'"
+            [class.w-[2rem]]="shipObj.type == 'sub'"
             [class.pointer-events-none]="draggingService.isDragging()"
         >
             <p class="handle cursor-move select-none">handle</p>
             <div class="h-7 outline outline-1">
-                {{ ship }}
+                {{ shipObj.type }}
             </div>
         </div>
     }
