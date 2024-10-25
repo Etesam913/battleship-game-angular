@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { Ship, ShipTypes } from "../../app.component";
+import { Ship, ShipTypes } from "./game-state/game-state.service";
 
 @Injectable({
   providedIn: "root",

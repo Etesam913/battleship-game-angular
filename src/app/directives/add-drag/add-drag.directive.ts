@@ -10,7 +10,10 @@ import {
   signal,
 } from "@angular/core";
 import { DraggingService } from "../../services/dragging/dragging.service";
-import { Ship, ShipTypes } from "../../app.component";
+import {
+  GameStateService,
+  Ship,
+} from "../../services/dragging/game-state/game-state.service";
 
 @Directive({
   selector: "[addDrag]",
@@ -31,6 +34,7 @@ export class AddDragDirective implements OnInit, OnDestroy, AfterViewInit {
     private el: ElementRef,
     private renderer: Renderer2,
     private draggingService: DraggingService,
+    private gameStateService: GameStateService,
   ) {
     effect(() => {
       const isMouseXSet = this.mouseX() !== null;
@@ -46,6 +50,14 @@ export class AddDragDirective implements OnInit, OnDestroy, AfterViewInit {
             `translate(${isMouseXSet ? mouseX - left : 0}px,${isMouseYSet ? mouseY - top : 0}px)`,
           );
         }
+      }
+    });
+
+    effect(() => {
+      this.gameStateService.currentShips();
+      if (this.directiveElement) {
+        this.directiveElementRect =
+          this.directiveElement.getBoundingClientRect();
       }
     });
   }

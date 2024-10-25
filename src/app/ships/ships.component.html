@@ -1,6 +1,6 @@
 <section class="flex flex-col gap-2">
     <h2 class="font-bold text-2xl">Your Ships</h2>
-    @for (shipObj of currentShips; track shipObj.id) {
+    @for (shipObj of gameStateService.currentShips(); track shipObj.id) {
         <div
             addDrag
             [shipObject]="shipObj"

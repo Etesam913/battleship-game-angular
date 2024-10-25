@@ -1,7 +1,7 @@
-import { Component, inject, Input } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { AddDragDirective } from "../directives/add-drag/add-drag.directive";
 import { DraggingService } from "../services/dragging/dragging.service";
-import { Ship } from "../app.component";
+import { GameStateService } from "../services/dragging/game-state/game-state.service";
 
 @Component({
   selector: "ships",
@@ -10,6 +10,6 @@ import { Ship } from "../app.component";
   templateUrl: "./ships.component.html",
 })
 export class ShipsComponent {
-  @Input({ required: true }) currentShips!: Ship[];
   draggingService = inject(DraggingService);
+  gameStateService = inject(GameStateService);
 }
