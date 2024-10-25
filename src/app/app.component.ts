@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+import { BoardComponent } from "./board/board.component";
+import { ShipsComponent } from "./ships/ships.component";
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterOutlet, BoardComponent, ShipsComponent],
+  templateUrl: "./app.component.html",
 })
 export class AppComponent {
-  title = 'battleship-game-angular';
+  title = "battleship-game-angular";
 }

@@ -1,0 +1,9 @@
+<div>
+    @for (row of boardItems; track "row-" + $index) {
+        <div class="flex">
+            @for (cell of row; track "cell-" + cell.id) {
+                <board-cell>{{ cell.value }}</board-cell>
+            }
+        </div>
+    }
+</div>

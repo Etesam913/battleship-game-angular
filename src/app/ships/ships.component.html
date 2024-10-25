@@ -1,0 +1,18 @@
+<section class="flex flex-col gap-2">
+    <h2 class="font-bold text-2xl">Your Ships</h2>
+    @for (ship of currentShips; track "ship" + $index) {
+        <div
+            addDrag
+            [class.w-[10rem]]="ship == 'aircraft carrier'"
+            [class.w-[8rem]]="ship == 'battleship'"
+            [class.w-[6rem]]="ship == 'cruiser'"
+            [class.w-[4rem]]="ship == 'destroyer'"
+            [class.w-[2rem]]="ship == 'sub'"
+        >
+            <p class="handle cursor-move select-none">handle</p>
+            <div class="h-7 outline outline-1">
+                {{ ship }}
+            </div>
+        </div>
+    }
+</section>
